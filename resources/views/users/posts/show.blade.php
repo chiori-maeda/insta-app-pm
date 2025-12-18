@@ -67,7 +67,8 @@
                                 @else
                                     <form action="{{ route('follow.store', $user->id) }}" method="post">
                                         @csrf
-                                        <button type="submit" class="border-0 bg-transparent p-0 text-primary">Follow</button>
+                                        <button type="submit"
+                                            class="border-0 bg-transparent p-0 text-primary">Follow</button>
                                     </form>
                                 @endif
                             @endif
@@ -78,25 +79,21 @@
                     {{-- heart button + no. of likes + categories --}}
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            @if ($post->isLiked())
-                                <form action="{{ route('like.destroy', $post->id) }}" method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-sm shadow-none p-0">
-                                        <i class="fa-solid fa-heart text-danger"></i>
-                                    </button>
-                                </form>
-                            @else
-                                <form action="{{ route('like.store', $post->id) }}" method="post">
-                                    @csrf
-                                    <button type="submit" class="btn btn-sm shadow-none p-0">
-                                        <i class="fa-regular fa-heart"></i>
-                                    </button>
-                                </form>
-                            @endif
-                        </div>
-                        <div class="col-auto px-0">
-                            <span>{{ $post->likes->count() }}</span>
+                            <form class="js-like-form" data-post-id="{{ $post->id }}"
+                                data-store-url="{{ route('like.store', $post->id) }}"
+                                data-destroy-url="{{ route('like.destroy', $post->id) }}"
+                                data-liked="{{ $post->isLiked() ? 1 : 0 }}">
+                                @csrf
+
+                                <button type="button" class="js-like-btn btn btn-sm shadow-none p-0" onclick="event.preventDefault(); event.stopPropagation();">
+                                    <i
+                                        class="{{ $post->isLiked() ? 'fa-solid fa-heart text-danger' : 'fa-regular fa-heart' }}"></i>
+                                </button>
+                            </form>
+
+                            <span class="js-like-count" data-post-id="{{ $post->id }}">
+                                {{ $post->likes->count() }}
+                            </span>
                         </div>
                         <div class="col text-end">
                             @foreach ($post->categoryPost as $category_post)
