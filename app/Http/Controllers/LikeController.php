@@ -14,20 +14,32 @@ class LikeController extends Controller
         $this->like = $like;
     }
 
-    public function store($post_id) {
-        $this->like->user_id = Auth::user()->id;
-        $this->like->post_id = $post_id;
-        $this->like->save();
+    public function store($post_id)
+{
+    Like::firstOrCreate([
+        'user_id' => Auth::id(),
+        'post_id' => $post_id,
+    ]);
 
-        return redirect()->back();
+    if (request()->ajax()) {
+        $count = Like::where('post_id', $post_id)->count();
+        return response()->json(['liked' => true, 'count' => $count]);
     }
 
-    public function destroy($post_id) {
-        $this->like
-                ->where('user_id', Auth::user()->id)
-                ->where('post_id', $post_id)
-                ->delete();
+    return redirect()->back();
+}
 
-        return redirect()->back();
-    }   
+public function destroy($post_id)
+{
+    Like::where('user_id', Auth::id())
+        ->where('post_id', $post_id)
+        ->delete();
+
+    if (request()->ajax()) {
+        $count = Like::where('post_id', $post_id)->count();
+        return response()->json(['liked' => false, 'count' => $count]);
+    }
+
+    return redirect()->back();
+}   
 }
