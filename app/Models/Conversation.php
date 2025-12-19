@@ -26,7 +26,7 @@ class Conversation extends Model
     #相手ユーザーの取得
     public function otherUserFor(int $userId) {
        return $this->users()
-            ->where('users_id', '!=', $userId)
+            ->where('user_id', '!=', $userId)
             ->first();
     }
 

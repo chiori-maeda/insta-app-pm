@@ -1,8 +1,13 @@
-<div class="container-fluid">
+@extends('layouts.app')
+ 
+@section('title', 'Message')
+ 
+@section('content')
+  <div class="container-fluid">
     <div class="row d-flex flex-row">
 
         {{-- 左：会話一覧 --}}
-        <div class="col-4 border-end" style="height: 80vh; overflow-y: auto;">
+        <div class="col-3 border-end" style="height: 80vh; overflow-y: auto;">
             @foreach ($conversations as $conv)
                 <a href="{{ route('messages.show', $conv->id) }}" class="text-decoration-none text-dark">
 
@@ -23,7 +28,7 @@
         </div>
 
         {{-- 右：チャット画面 --}}
-        <div class="col-8" style="height: 80vh">
+        <div class="col-9 d-flex flex-column" style="height: 80vh">
             @if ($conversation)
 
                 {{-- ヘッダー --}}
@@ -77,3 +82,7 @@
         </div>
     </div>
 </div>
+
+    
+@endsection
+ 
