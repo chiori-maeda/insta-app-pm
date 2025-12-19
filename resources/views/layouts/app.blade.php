@@ -43,12 +43,13 @@
                         @if (!request()->is('admin/*'))
                             <ul class="navbar-nav ms-auto">
                                 <form action="{{ route('search') }}" style="width: 300px">
-                                    <input type="search" name="search" class="form-control form-control-sm" placeholder="Search...">
+                                    <input type="search" name="search" class="form-control form-control-sm"
+                                        placeholder="Search...">
                                 </form>
                             </ul>
                         @endif
                     @endauth
-                    
+
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ms-auto">
@@ -62,7 +63,8 @@
 
                             @if (Route::has('register'))
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                                    <a class="nav-link"
+                                        href="{{ route('login', ['mode' => 'register']) }}">{{ __('Register') }}</a>
                                 </li>
                             @endif
                         @else
@@ -150,7 +152,7 @@
                         </div>
                     @endif
 
-                    
+
 
                     <div class="col-9">
                         @yield('content')
