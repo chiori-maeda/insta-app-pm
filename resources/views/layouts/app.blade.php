@@ -17,18 +17,49 @@
         integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+
+
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
     @livewireStyles
+    <style>
+        .ig-logo-icon {
+            font-size: 40px;
+            
+            line-height: 1;
+            display: inline-block;
+
+            background: radial-gradient(circle at 30% 30%, #ffdc80, transparent 45%),
+                radial-gradient(circle at 70% 30%, #fcaf45, transparent 40%),
+                radial-gradient(circle at 30% 70%, #f77737, transparent 40%),
+                radial-gradient(circle at 70% 70%, #833ab4, transparent 45%),
+                linear-gradient(135deg, #f56040, #833ab4);
+
+            -webkit-background-clip: text;
+            background-clip: text;
+
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, .35));
+        }
+
+        .ig-logo-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 32px;
+        }
+    </style>
 </head>
 
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
+        <nav class="navbar navbar-expand-md navbar-dark bg-dark shadow-sm">
             <div class="container">
-                <a class="navbar-brand" href="{{ url('/') }}">
-                    <h1 class="h5 mb-0">{{ config('app.name') }}</h1>
+                <a class="navbar-brand d-flex align-items-center gap-2" href="{{ url('/') }}">
+                    <i class="fa-brands fa-instagram ig-logo-icon ig-nav-icon"></i>
+                    <span class="ig-nav-text ig-logo-text text-white">Instagram</span>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -72,14 +103,14 @@
                             {{-- Home --}}
                             <li class="nav-item" title="Home">
                                 <a href="{{ route('index') }}" class="nav-link">
-                                    <i class="fa-solid fa-house text-dark icon-sm"></i>
+                                    <i class="fa-solid fa-house text-light icon-sm"></i>
                                 </a>
                             </li>
 
                             {{-- Create Post --}}
                             <li class="nav-item" title="Create Post">
                                 <a href="{{ route('post.create') }}" class="nav-link">
-                                    <i class="fa-solid fa-circle-plus text-dark icon-sm"></i>
+                                    <i class="fa-solid fa-circle-plus text-light icon-sm"></i>
                                 </a>
                             </li>
 
@@ -90,7 +121,7 @@
                                         <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}"
                                             class="rounded-circle avatar-sm">
                                     @else
-                                        <i class="fa-solid fa-circle-user text-dark icon-sm"></i>
+                                        <i class="fa-solid fa-circle-user text-light icon-sm"></i>
                                     @endif
                                 </button>
 
@@ -106,7 +137,7 @@
 
                                     {{-- Profile --}}
                                     <a href="{{ route('profile.show', Auth::user()->id) }}" class="dropdown-item">
-                                        <i class="fa-solid fa-circle-user"></i> Profile
+                                        <i class="fa-solid fa-circle-user text-dark"></i> Profile
                                     </a>
 
                                     {{-- Logout --}}
@@ -156,7 +187,7 @@
 
 
 
-                    
+
                     <div class="col-9">
                         @yield('scripts')
                     </div>
