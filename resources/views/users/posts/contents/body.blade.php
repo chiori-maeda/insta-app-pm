@@ -7,7 +7,8 @@
     {{-- heart button + no. of likes + categories --}}
     <div class="row align-items-center">
         <div class="col-auto">
-            @if ($post->isLiked())
+            <livewire:post-like :post="$post" />
+            {{-- @if ($post->isLiked())
                 <form action="{{ route('like.destroy', $post->id) }}" method="post">
                     @csrf
                     @method('DELETE')
@@ -22,10 +23,10 @@
                         <i class="fa-regular fa-heart"></i>
                     </button>
                 </form>
-            @endif
+            @endif --}}
         </div>
         <div class="col-auto px-0">
-            <span>{{ $post->likes->count() }}</span>
+            {{-- <span>{{ $post->likes->count() }}</span> --}}
         </div>
         <div class="col text-end">
             @forelse ($post->categoryPost as $category_post)

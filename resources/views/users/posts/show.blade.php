@@ -79,7 +79,8 @@
                     {{-- heart button + no. of likes + categories --}}
                     <div class="row align-items-center">
                         <div class="col-auto">
-                            <form class="js-like-form" data-post-id="{{ $post->id }}"
+                            <livewire:post-like :post="$post" />
+                            {{-- <form class="js-like-form" data-post-id="{{ $post->id }}"
                                 data-store-url="{{ route('like.store', $post->id) }}"
                                 data-destroy-url="{{ route('like.destroy', $post->id) }}"
                                 data-liked="{{ $post->isLiked() ? 1 : 0 }}">
@@ -93,7 +94,10 @@
 
                             <span class="js-like-count" data-post-id="{{ $post->id }}">
                                 {{ $post->likes->count() }}
-                            </span>
+                            </span> --}}
+                        </div>
+                        <div class="col-auto px-0">
+                            {{-- <span>{{ $post->likes->count() }}</span> --}}
                         </div>
                         <div class="col text-end">
                             @foreach ($post->categoryPost as $category_post)
