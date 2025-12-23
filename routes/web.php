@@ -68,6 +68,7 @@ Route::group(["middleware" => "auth"], function () {
   Route::patch('/profile/update', [ProfileController::class, 'update'])->name('profile.update');
   Route::get('/profile/{id}/followers', [ProfileController::class, 'followers'])->name('profile.followers');
   Route::get('/profile/{id}/following', [ProfileController::class, 'following'])->name('profile.following');
+  Route::get('/profile/{user}/commented', [ProfileController::class, 'commented'])->name('profile.commented');
 
 
   #Like
