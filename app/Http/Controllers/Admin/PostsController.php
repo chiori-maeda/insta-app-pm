@@ -19,12 +19,12 @@ class PostsController extends Controller
         return view('admin.posts.index')->with('all_posts', $all_posts);
     }
 
-    public function hide($id) {
+    public function deactivate($id) {
         $this->post->destroy($id);
         return redirect()->back();
     }
 
-    public function unhide($id) {
+    public function activate($id) {
         $this->post->onlyTrashed()->findOrFail($id)->restore();
         return redirect()->back();
     }

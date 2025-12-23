@@ -74,12 +74,22 @@ class ProfileController extends Controller
     }
 
     public function liked(User $user)
-{
-    $likedPosts = $user->likedPosts()
-        ->with(['likes', 'comments'])
-        ->latest()
-        ->get();
+    {
+        $likedPosts = $user->likedPosts()
+            ->with(['likes', 'comments'])
+            ->latest()
+            ->get();
 
-    return view('users.profile.liked', compact('user', 'likedPosts'));
-}
+        return view('users.profile.liked', compact('user', 'likedPosts'));
+    }
+
+    public function commented(User $user)
+    {
+        $posts = $user->commentedPosts()
+            ->withCount('likes', 'comments')
+            ->latest()
+            ->get();
+
+        return view('users.profile.grid', compact('user', 'posts'));
+    }
 }

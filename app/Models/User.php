@@ -113,5 +113,9 @@ class User extends Authenticatable
         return $this->belongsToMany(Post::class, 'likes');
     }
 
-
+    public function commentedPosts()
+    {
+        return $this->belongsToMany(Post::class, 'comments')
+            ->distinct();
+    }
 }

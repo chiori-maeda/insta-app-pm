@@ -1,12 +1,13 @@
 @extends('layouts.app')
 
-@section('title', $user->name)
+@section('title', 'Commented')
 
 @section('content')
     <div class="profile-page-modern">
 
         @include('users.profile.header')
 
+        {{-- MODERN TABS --}}
         <div class="profile-tabs-modern">
             <div class="tabs-container">
                 <a href="{{ route('profile.show', $user->id) }}"
@@ -48,13 +49,26 @@
             </div>
         </div>
 
+        {{-- COMMENTED POSTS GRID --}}
         <div class="profile-posts-modern">
-            @if ($user->posts->isNotEmpty())
+            @if ($posts->isNotEmpty())
                 <div class="posts-grid">
-                    @foreach ($user->posts as $post)
+                    @foreach ($posts as $post)
                         <div class="grid-item">
                             <a href="{{ route('post.show', $post->id) }}" class="grid-link">
                                 <img src="{{ $post->image }}" class="grid-image" alt="Post">
+
+                                {{-- Commented Badge --}}
+                                <div class="commented-badge">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="#667eea" stroke="#667eea">
+                                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
+                                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                        <circle cx="9" cy="10" r="1" fill="#fff" />
+                                        <circle cx="12" cy="10" r="1" fill="#fff" />
+                                        <circle cx="15" cy="10" r="1" fill="#fff" />
+                                    </svg>
+                                </div>
+
                                 <div class="grid-overlay-modern">
                                     <div class="overlay-stats">
                                         <div class="stat-item">
@@ -64,7 +78,7 @@
                                                     d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
                                                     stroke-width="2" />
                                             </svg>
-                                            <span>{{ $post->likes->count() }}</span>
+                                            <span>{{ $post->likes_count }}</span>
                                         </div>
                                         <div class="stat-item">
                                             <svg width="24" height="24" viewBox="0 0 24 24" fill="white"
@@ -72,7 +86,7 @@
                                                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"
                                                     stroke-width="2" />
                                             </svg>
-                                            <span>{{ $post->comments->count() }}</span>
+                                            <span>{{ $post->comments_count }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -84,14 +98,15 @@
                 <div class="empty-state-modern">
                     <div class="empty-icon">
                         <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
-                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                            <circle cx="12" cy="13" r="4" stroke-width="2" stroke-linecap="round"
-                                stroke-linejoin="round" />
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" stroke-width="1.5"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                            <circle cx="9" cy="10" r="1.5" fill="currentColor" />
+                            <circle cx="12" cy="10" r="1.5" fill="currentColor" />
+                            <circle cx="15" cy="10" r="1.5" fill="currentColor" />
                         </svg>
                     </div>
-                    <h4>No posts yet</h4>
-                    <p>When {{ $user->name }} shares photos, they'll appear here.</p>
+                    <h4>No commented posts yet</h4>
+                    <p>Posts that {{ $user->name }} comments on will appear here.</p>
                 </div>
             @endif
         </div>
@@ -99,12 +114,14 @@
     </div>
 
     <style>
+        /* Page Container */
         .profile-page-modern {
             max-width: 935px;
             margin: 0 auto;
             padding: 20px;
         }
 
+        /* Modern Tabs */
         .profile-tabs-modern {
             margin-top: 24px;
             border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -167,8 +184,22 @@
             font-weight: 700;
         }
 
+        /* Posts Grid with Slide Animation */
         .profile-posts-modern {
             margin-top: 24px;
+            animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
         .posts-grid {
@@ -203,7 +234,45 @@
             transform: scale(1.1);
         }
 
+        /* Commented Badge */
+        .commented-badge {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 3;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+            animation: commentPulse 2s ease-in-out infinite;
+            opacity: 0.9;
+            transition: all 0.3s ease;
+        }
 
+        .grid-item:hover .commented-badge {
+            transform: scale(1.15);
+            opacity: 1;
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+        }
+
+        @keyframes commentPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.08);
+            }
+        }
+
+        /* Grid Overlay */
         .grid-overlay-modern {
             position: absolute;
             top: 0;
@@ -263,6 +332,7 @@
             }
         }
 
+        /* Empty State */
         .empty-state-modern {
             display: flex;
             flex-direction: column;
@@ -279,7 +349,7 @@
         }
 
         .empty-icon svg {
-            stroke: rgba(255, 255, 255, 0.2);
+            stroke: rgba(102, 126, 234, 0.3);
             stroke-width: 1.5;
         }
 
@@ -314,6 +384,7 @@
             }
         }
 
+        /* Responsive Design */
         @media (max-width: 768px) {
             .profile-page-modern {
                 padding: 16px;
@@ -344,6 +415,18 @@
 
             .posts-grid {
                 gap: 2px;
+            }
+
+            .commented-badge {
+                width: 28px;
+                height: 28px;
+                top: 6px;
+                right: 6px;
+            }
+
+            .commented-badge svg {
+                width: 14px;
+                height: 14px;
             }
 
             .overlay-stats {
@@ -384,6 +467,7 @@
             }
         }
 
+        /* Loading Animation for Grid Items */
         .grid-item {
             animation: fadeIn 0.5s ease forwards;
             opacity: 0;
@@ -408,6 +492,35 @@
         .grid-item:nth-child(5) {
             animation-delay: 0.25s;
         }
+
+        .grid-item:nth-child(6) {
+            animation-delay: 0.30s;
+        }
+
+        .grid-item:nth-child(7) {
+            animation-delay: 0.35s;
+        }
+
+        .grid-item:nth-child(8) {
+            animation-delay: 0.40s;
+        }
+
+        .grid-item:nth-child(9) {
+            animation-delay: 0.45s;
+        }
+
+        .grid-item:nth-child(10) {
+            animation-delay: 0.50s;
+        }
+
+        .grid-item:nth-child(11) {
+            animation-delay: 0.55s;
+        }
+
+        .grid-item:nth-child(12) {
+            animation-delay: 0.60s;
+        }
+
 
         @keyframes fadeIn {
             to {
