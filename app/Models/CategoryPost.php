@@ -9,6 +9,8 @@ class CategoryPost extends Model
     protected $table = 'category_post';
     protected $fillable = ['category_id', 'post_id'];
     public $timestamps = false;
+    protected $primaryKey = ['category_id', 'post_id'];
+    public $incrementing = false;
 
     #To get the name of the category
     public function category() {
