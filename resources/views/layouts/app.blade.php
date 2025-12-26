@@ -74,7 +74,10 @@
             background: rgba(10, 10, 10, 0.95) !important;
             backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            /* position: sticky; */
             padding: 12px 0;
+            height: 72px;
+            /* z-index: 100;  */
         }
 
         /* Logo Styles */
@@ -194,6 +197,7 @@
             margin-top: 8px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
             min-width: 200px;
+            /* z-index: 10000 !important; */
         }
 
         .dropdown-item-modern {
@@ -490,7 +494,7 @@
                                     </a>
                                 </li>
 
-                                {{-- Message --}}
+
                                 {{-- Message --}}
                                 <li class="nav-item">
                                     <a href="{{ route('messages.index') }}" class="nav-icon-btn text-decoration-none"
@@ -525,7 +529,8 @@
 
                                 {{-- Account --}}
                                 <li class="nav-item dropdown">
-                                    <button id="account-dropdown" class="btn shadow-none p-0" data-bs-toggle="dropdown">
+                                    <button id="account-dropdown" class="btn shadow-none p-0" data-bs-toggle="dropdown"
+                                        data-bs-display="static" data-bs-boundary="window">
                                         @if (Auth::user()->avatar)
                                             <img src="{{ Auth::user()->avatar }}" alt="{{ Auth::user()->name }}"
                                                 class="nav-avatar">

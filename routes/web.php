@@ -25,7 +25,8 @@ Route::group(["middleware" => "auth"], function () {
   Route::get('/people', [HomeController::class, 'search'])->name('search');
 
 
-  Route::group(["prefix" => "admin", "as" => "admin.","middleware" =>"admin"], function () {
+
+  Route::group(["prefix" => "admin", "as" => "admin.", "middleware" => "admin"], function () {
 
     // USER
     Route::get('/users', [UsersController::class, 'index'])->name('users');
@@ -37,7 +38,7 @@ Route::group(["middleware" => "auth"], function () {
     Route::get('/posts', [PostsController::class, 'index'])->name('posts');
     Route::delete('/posts/{id}/deactivate', [PostsController::class, 'deactivate'])->name('posts.deactivate');
     Route::patch('/posts/{id}/activate', [PostsController::class, 'activate'])->name('posts.activate');
-   
+
 
     // CATEGORY
     Route::get('/categories', [CategoriesController::class, 'index'])->name('categories');
@@ -79,9 +80,6 @@ Route::group(["middleware" => "auth"], function () {
   Route::post('/follow/{user_id}/store', [FollowController::class, 'store'])->name('follow.store');
   Route::delete('/follow/{user_id}/destroy', [FollowController::class, 'destroy'])->name('follow.destroy');
 
-  #Story
-  Route::get('/story/create', [StoryController::class, 'create'])->name('story.create');
-  Route::post('/story/store', [StoryController::class, 'store'])->name('story.store');
 
   #Message
   Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
@@ -89,6 +87,15 @@ Route::group(["middleware" => "auth"], function () {
   Route::post('/messages/{conversation}', [MessageController::class, 'store'])->name('messages.store');
   Route::get('/messages/start/{user}', [MessageController::class, 'start'])->name('messages.start');
 
+
+  #Story
+  
+  //Story
+  Route::get('/stories/create', [StoryController::class, 'create'])->name('stories.create');
+  Route::post('/stories/store', [StoryController::class, 'store'])->name('stories.store');
+  Route::get('/stories/{story}', [StoryController::class, 'show'])->name('stories.show');
+  Route::delete('/stories/{story_id}/destroy', [StoryController::class, 'destroy'])->name('stories.destroy');
+  Route::post('/stories/{story}/view', [StoryController::class, 'markAsViewed'])->name('stories.view');
 
   Route::post('/note', [NoteController::class, 'store'])->name('note.store');
   Route::patch('/note', [NoteController::class, 'update'])->name('note.update');

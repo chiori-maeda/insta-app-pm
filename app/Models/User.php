@@ -81,11 +81,6 @@ class User extends Authenticatable
         return $this->hasMany(Story::class);
     }
 
-    public function hasStories()
-    {
-        return $this->stories()->where('expires_at', '>', now())->exists();
-    }
-
     #Message
     #多対対リレーション(User↔︎Conversation)
     public function conversations()
@@ -117,5 +112,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Post::class, 'comments')
             ->distinct();
+    }
+
+    public function isFollowing($user) {
+        return $this->following()->where('following_id', $user->id)->exists();
     }
 }

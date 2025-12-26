@@ -8,7 +8,7 @@
 
         <div class="ig-create-head">
             <div class="ig-create-title">Edit post</div>
-            <button type="submit" form="editPostForm" class="ig-post-btn">Save</button>
+            {{-- <button type="submit" form="editPostForm" class="ig-post-btn">Save</button> --}}
         </div>
 
         <form id="editPostForm" action="{{ route('post.update', $post->id) }}" method="post" enctype="multipart/form-data" class="ig-create-form">
@@ -214,17 +214,31 @@ body{
   font-weight:700;
 }
 
-/* button */
-.ig-post-btn{
-  height:38px;
-  border:0;
-  border-radius:10px;
-  background:#1d9bf0;
-  color:#fff;
-  font-weight:800;
-  padding:0 14px;
-}
-.ig-post-btn:active{ background:#1384cf; }
+        .ig-post-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            height: 46px;
+            width: 100%;
+            border: none;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 800;
+            font-size: 15px;
+            letter-spacing: 0.3px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            /* box-shadow: 0 4px 15px rgba(220, 39, 67, 0.3); */
+        }
+
+        .ig-post-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+            color: #fff;
+        }
 
 .ig-create-foot{
   padding: 14px 16px 18px;
